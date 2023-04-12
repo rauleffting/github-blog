@@ -14,13 +14,13 @@ export const CardContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     h2 {
       font-family: 'Nunito';
       font-style: normal;
       font-weight: 700;
       font-size: 1.25rem;
       line-height: 160%;
-
       color: ${(props) => props.theme.title};
     }
 
@@ -48,5 +48,9 @@ export const CardContainer = styled.div`
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 `

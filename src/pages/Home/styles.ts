@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 
-export const HomeContainer = styled.main`
+export const HomeContainer = styled.div`
   main {
     margin: 0 18rem;
   }
 `
 
 export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+
   .section-header {
     display: flex;
     justify-content: space-between;
