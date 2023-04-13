@@ -1,4 +1,5 @@
 import { ThemeProvider } from 'styled-components'
+import { IssuesProvider } from './contexts/IssuesContext'
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
 import { BrowserRouter } from 'react-router-dom'
@@ -9,7 +10,9 @@ export function App() {
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
         <GlobalStyle />
-        <Router />
+        <IssuesProvider>
+          <Router />
+        </IssuesProvider>
       </BrowserRouter>
     </ThemeProvider>
   )

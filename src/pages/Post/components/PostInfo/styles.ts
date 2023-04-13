@@ -7,7 +7,6 @@ export const PostInfoContainer = styled.section`
 
   min-height: 10.5rem;
   margin-top: -5rem;
-  margin-bottom: 4.5rem;
   padding: 2rem;
 
   display: flex;

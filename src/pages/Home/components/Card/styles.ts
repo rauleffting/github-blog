@@ -52,5 +52,6 @@ export const CardContainer = styled.div`
 
   &:hover {
     cursor: pointer;
+    border: 2px solid #3a536b;
   }
 `

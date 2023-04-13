@@ -9,13 +9,20 @@ import arrow from '../../../../assets/arrow-square-up-right.svg'
 import github from '../../../../assets/github-icon.svg'
 import calendar from '../../../../assets/calendar-icon.svg'
 import comments from '../../../../assets/comments-icon.svg'
+import { useNavigate } from 'react-router-dom'
 
 export function PostInfo() {
+  const navigation = useNavigate()
+
+  function handleNavigate(id: string) {
+    navigation(-1)
+  }
+
   return (
     <PostInfoContainer>
       <Information>
         <div className="information-header-wrapper">
-          <HeaderLinks>
+          <HeaderLinks onClick={handleNavigate}>
             <img src={arrowBack} alt="back arrow" />
             <span>GO BACK</span>
           </HeaderLinks>
