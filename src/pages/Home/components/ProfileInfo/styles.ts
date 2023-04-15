@@ -57,7 +57,7 @@ export const Information = styled.div`
   }
 `
 
-export const GithubLink = styled.div`
+export const GithubLink = styled.a`
   display: flex;
   align-items: center;
   gap: 0.5rem;

@@ -8,6 +8,7 @@ export const CardContainer = styled.div`
   gap: 1.25rem;
 
   background-color: ${(props) => props.theme.post};
+  border: 2px solid transparent;
   border-radius: 10px;
 
   .header-wrapper {

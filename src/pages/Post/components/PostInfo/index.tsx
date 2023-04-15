@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   HeaderLinks,
   Information,
@@ -10,13 +11,18 @@ import github from '../../../../assets/github-icon.svg'
 import calendar from '../../../../assets/calendar-icon.svg'
 import comments from '../../../../assets/comments-icon.svg'
 import { useNavigate } from 'react-router-dom'
+import { formatDistanceToNow } from 'date-fns'
 
-export function PostInfo() {
+export function PostInfo({ issue }: any) {
   const navigation = useNavigate()
 
-  function handleNavigate(id: string) {
+  function handleNavigate(event: React.MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault()
     navigation(-1)
   }
+
+  const date = new Date(issue.updated_at)
+  const formattedDate = formatDistanceToNow(date, { addSuffix: true })
 
   return (
     <PostInfoContainer>
@@ -26,24 +32,24 @@ export function PostInfo() {
             <img src={arrowBack} alt="back arrow" />
             <span>GO BACK</span>
           </HeaderLinks>
-          <HeaderLinks>
+          <HeaderLinks href={issue.html_url} target="_blank">
             <span>SEE ON GITHUB</span>
             <img src={arrow} alt="up right arrow" />
           </HeaderLinks>
         </div>
-        <h1>JavaScript data types and data structures</h1>
+        <h1>{issue.title}</h1>
         <div className="information-footer-wrapper">
           <OtherLinks>
             <img src={github} alt="github icon" />
-            <span>camaronwll</span>
+            <span>{issue.user.login}</span>
           </OtherLinks>
           <OtherLinks>
             <img src={calendar} alt="building icon" />
-            <span>1 day ago</span>
+            <span>{formattedDate}</span>
           </OtherLinks>
           <OtherLinks>
             <img src={comments} alt="two people icon" />
-            <span>5 comments</span>
+            <span>{issue.comments}</span>
           </OtherLinks>
         </div>
       </Information>

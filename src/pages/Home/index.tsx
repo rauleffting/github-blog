@@ -19,7 +19,7 @@ export function Home() {
           </div>
           <Search type="text" placeholder="Search content" />
           <div className="card-wrapper">
-            {issues.map((issue) => (
+            {issues?.map((issue) => (
               <Card key={issue.id} issue={issue} />
             ))}
           </div>

@@ -30,20 +30,11 @@ export const PostContainer = styled.div`
       padding-left: 1.5rem;
     }
 
-    pre {
-      background: ${(props) => props.theme.post};
-      padding: 1rem;
-
-      > div {
-        background: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-
-        code {
-          font-family: 'FiraCode', monospace !important;
-          line-height: 160% !important;
-        }
-      }
+    p,
+    span,
+    pre,
+    ul {
+      color: ${(props) => props.theme.text};
     }
   }
 `

@@ -41,7 +41,7 @@ export const Information = styled.div`
   }
 `
 
-export const HeaderLinks = styled.div`
+export const HeaderLinks = styled.a`
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -76,9 +76,5 @@ export const OtherLinks = styled.div`
     line-height: 160%;
 
     color: ${(props) => props.theme.subtitle};
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 `

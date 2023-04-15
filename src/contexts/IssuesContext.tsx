@@ -1,6 +1,16 @@
 import { ReactNode, useEffect, useState, createContext } from 'react'
 import { api } from '../lib/axios'
 
+interface User {
+  avatar_url: string
+  html_url: string
+  name: string
+  bio: string
+  login: string
+  company: string
+  followers: number
+}
+
 interface Issues {
   id: number
   avatar_url: string
@@ -12,7 +22,8 @@ interface Issues {
 }
 
 interface IssuesContextType {
-  issues: Issues[]
+  userData: User | null
+  issues: Issues[] | null
 }
 
 interface IssuesProviderProps {
@@ -22,23 +33,45 @@ interface IssuesProviderProps {
 export const IssuesContext = createContext({} as IssuesContextType)
 
 export function IssuesProvider({ children }: IssuesProviderProps) {
-  const [issues, setIssues] = useState<Issues[]>([])
+  const [issues, setIssues] = useState<Issues[] | null>(null)
+  const [userData, setUserData] = useState<User | null>(null)
 
-  async function fetchIssues() {
-    const response: any = await api.get(
-      `/repos/rocketseat-education/reactjs-github-blog-challenge/issues`,
-    )
+  async function fetchData() {
+    try {
+      const issuesResponse = await api.get(
+        `/repos/rocketseat-education/reactjs-github-blog-challenge/issues`,
+      )
+      const userResponse = await api.get(`/users/rauleffting`)
 
-    setIssues(response.data)
+      setIssues(issuesResponse.data)
+      setUserData(userResponse.data)
+    } catch (error) {
+      console.error(error)
+      setIssues([])
+      setUserData(null)
+    }
   }
 
   useEffect(() => {
-    fetchIssues()
+    fetchData()
   }, [])
 
   return (
-    <IssuesContext.Provider value={{ issues }}>
+    <IssuesContext.Provider value={{ issues, userData }}>
       {children}
     </IssuesContext.Provider>
   )
 }
+
+/* 
+Why issues is an array and userData not?
+
+In the context of this application, the userData object represents the information of a single user. 
+This is because the API endpoint GET /users/:username returns the information of a single user based on the username provided. 
+Therefore, it is not an array, but an object that contains properties such as avatar_url, name, bio, etc.
+
+On the other hand, the issues data is retrieved from the API endpoint GET /repos/:owner/:repo/issues, 
+which returns an array of issue objects for the specified repository. 
+Therefore, it is stored as an array of Issues objects in the issues state.
+
+*/
