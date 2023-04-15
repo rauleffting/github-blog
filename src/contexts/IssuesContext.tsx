@@ -1,4 +1,10 @@
-import { ReactNode, useEffect, useState, createContext } from 'react'
+import {
+  ReactNode,
+  useEffect,
+  useState,
+  createContext,
+  useCallback,
+} from 'react'
 import { api } from '../lib/axios'
 
 interface User {
@@ -24,6 +30,7 @@ interface Issues {
 interface IssuesContextType {
   userData: User | null
   issues: Issues[] | null
+  setQuery: (event: string) => void
 }
 
 interface IssuesProviderProps {
@@ -35,8 +42,9 @@ export const IssuesContext = createContext({} as IssuesContextType)
 export function IssuesProvider({ children }: IssuesProviderProps) {
   const [issues, setIssues] = useState<Issues[] | null>(null)
   const [userData, setUserData] = useState<User | null>(null)
+  const [query, setQuery] = useState('')
 
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     try {
       const issuesResponse = await api.get(
         `/repos/rocketseat-education/reactjs-github-blog-challenge/issues`,
@@ -50,14 +58,30 @@ export function IssuesProvider({ children }: IssuesProviderProps) {
       setIssues([])
       setUserData(null)
     }
+  }, [])
+
+  async function searchIssues() {
+    try {
+      const issuesResponse = await api.get(
+        `/search/issues?q=${query}%20repo:rocketseat-education/reactjs-github-blog-challenge`,
+      )
+      setIssues(issuesResponse.data.items)
+    } catch (error) {
+      console.error(error)
+      setIssues([])
+    }
   }
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if (query) {
+      searchIssues()
+    } else {
+      fetchData()
+    }
+  }, [query])
 
   return (
-    <IssuesContext.Provider value={{ issues, userData }}>
+    <IssuesContext.Provider value={{ issues, userData, setQuery }}>
       {children}
     </IssuesContext.Provider>
   )

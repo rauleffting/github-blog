@@ -1,12 +1,31 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { Header } from '../../components/Header'
 import { IssuesContext } from '../../contexts/IssuesContext'
 import { Card } from './components/Card'
 import { ProfileInfo } from './components/ProfileInfo'
 import { HomeContainer, Search, Section } from './styles'
 
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const searchFormSchema = z.object({
+  query: z.string(),
+})
+
+type SearchFormInput = z.infer<typeof searchFormSchema>
+
 export function Home() {
-  const { issues } = useContext(IssuesContext)
+  const { issues, setQuery } = useContext(IssuesContext)
+
+  const { register, handleSubmit } = useForm<SearchFormInput>({
+    resolver: zodResolver(searchFormSchema),
+  })
+
+  function handleSearch(data: SearchFormInput) {
+    setQuery(data.query)
+  }
+
   return (
     <HomeContainer>
       <Header />
@@ -15,9 +34,16 @@ export function Home() {
         <Section>
           <div className="section-header">
             <h4>Posts</h4>
-            <span>6 posts</span>
+            <span>{issues?.length}</span>
           </div>
-          <Search type="text" placeholder="Search content" />
+          <form onSubmit={handleSubmit(handleSearch)}>
+            <Search
+              type="text"
+              placeholder="Search content"
+              // onChange={handleSearch}
+              {...register('query')}
+            />
+          </form>
           <div className="card-wrapper">
             {issues?.map((issue) => (
               <Card key={issue.id} issue={issue} />

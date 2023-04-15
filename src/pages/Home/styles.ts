@@ -48,6 +48,7 @@ export const Search = styled.input`
   padding: 0.75rem 1rem;
   background: ${(props) => props.theme.input};
   border: 1px solid ${(props) => props.theme.border};
+  color: ${(props) => props.theme.label};
   border-radius: 6px;
   margin-bottom: 3rem;
 
@@ -55,5 +56,12 @@ export const Search = styled.input`
     outline: none;
     border-color: ${(props) => props.theme.blue};
     box-shadow: 0 0 0 2px ${(props) => props.theme.blue}33;
+
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 160%;
+    color: ${(props) => props.theme.text};
   }
 `
